@@ -42,7 +42,6 @@ export class PostController {
   }
 
   @Get()
-  @UsePipes(new ValidationPipe({ transform: true }))
   findAll(@Query() pagination: PaginationParams) {
     return this.postService.findAll(pagination.skip, pagination.limit);
   }

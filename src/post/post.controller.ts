@@ -9,6 +9,10 @@ import {
   Delete,
   UseInterceptors,
   UploadedFile,
+  Query,
+  ParseIntPipe,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -16,6 +20,8 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storage } from 'src/config/multer.config';
 import MongooseClassSerializerInterceptor from 'src/interceptors/mongooseClassSerializer.interceptor';
+import { uploadFileToDriver } from 'src/config/driver.config';
+import { PaginationParams } from './dto/pagination.dto';
 
 @Controller('post')
 @UseInterceptors(MongooseClassSerializerInterceptor(Posts))
@@ -24,17 +30,21 @@ export class PostController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file', { storage }))
-  uploadFile(
+  async uploadFile(
     @UploadedFile() file: Express.Multer.File,
     @Body() createPostDto: CreatePostDto,
   ) {
-    if (file) createPostDto.image = file.filename;
+    const res = await uploadFileToDriver(file.filename);
+    console.log(res);
+
+    if (file) createPostDto.image = res.webContentLink;
     return this.postService.create(createPostDto);
   }
 
   @Get()
-  findAll() {
-    return this.postService.findAll();
+  @UsePipes(new ValidationPipe({ transform: true }))
+  findAll(@Query() pagination: PaginationParams) {
+    return this.postService.findAll(pagination.skip, pagination.limit);
   }
 
   // @Get(':userId')

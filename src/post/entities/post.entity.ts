@@ -13,6 +13,10 @@ export class Posts {
   content: string;
   @Prop()
   image: string;
+  @Prop({ default: 0 })
+  like: number;
+  @Prop({ default: 0 })
+  dislike: number;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   @Type(() => User)
   user: User;

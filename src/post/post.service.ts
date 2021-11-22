@@ -25,9 +25,15 @@ export class PostService {
     return await createdPost.save();
   }
 
-  async findAll(): Promise<Posts[]> {
-    return await this.postModel.find({ isDeleted: false }).populate('user');
+  async findAll(skip = 0, limit = 5): Promise<Posts[]> {
+    const query = this.postModel
+      .find({ isDeleted: false })
+      .populate('user')
+      .skip(skip)
+      .sort({ createAt: -1 });
     // .exec();
+    if (limit) query.limit(limit);
+    return await query;
   }
 
   async findAllByUserId(userId: string): Promise<Posts[]> {

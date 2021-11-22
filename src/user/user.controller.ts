@@ -20,6 +20,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import MongooseClassSerializerInterceptor from 'src/interceptors/mongooseClassSerializer.interceptor';
 import { User } from './entities/user.entity';
+import { uploadFileToDriver } from 'src/config/driver.config';
 
 @Controller('user')
 @UseInterceptors(MongooseClassSerializerInterceptor(User))
@@ -28,11 +29,12 @@ export class UserController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file', { storage }))
-  uploadFile(
+  async uploadFile(
     @UploadedFile() file: Express.Multer.File,
     @Body() createUserDto: CreateUserDto,
   ) {
-    if (file) createUserDto.profilePicture = file.filename;
+    const res = await uploadFileToDriver(file.filename);
+    if (file) createUserDto.profilePicture = res.webContentLink;
     return this.userService.create(createUserDto);
   }
 

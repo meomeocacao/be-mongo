@@ -1,19 +1,30 @@
-import { IsDate, IsEmail, IsNotEmpty, Matches } from 'class-validator';
+import {
+  IsDate,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  Matches,
+} from 'class-validator';
 import { USER_ERRORS, USER_REGEX } from 'src/constants/user.constants';
 
 export class CreateUserDto {
   id?: string;
   @IsNotEmpty({ message: USER_ERRORS.USERNAME_NOT_EMPTY })
+  @IsOptional()
   username: string;
   //   @Matches(USER_REGEX.PASSWORD, {
   //     message: USER_ERRORS.INVALID_PASSWORD,
   //   })
+  // @IsOptional()
   password: string;
   @IsEmail({ message: USER_ERRORS.INVALID_EMAIL })
+  @IsOptional()
   email: string;
   @IsNotEmpty({ message: USER_ERRORS.FIRST_NAME_NOT_EMPTY })
+  @IsOptional()
   firstName: string;
   @IsNotEmpty({ message: USER_ERRORS.LAST_NAME_NOT_EMPTY })
+  @IsOptional()
   lastName: string;
   profilePicture?: string;
   bio?: string;

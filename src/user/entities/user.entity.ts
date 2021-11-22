@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Transform, Type } from 'class-transformer';
+import { Exclude, Transform, Type } from 'class-transformer';
 import { Document, ObjectId } from 'mongoose';
 import { Posts, PostSchema } from 'src/post/entities/post.entity';
 
@@ -12,6 +12,7 @@ export class User {
   @Prop({ unique: true, required: true })
   username: string;
   @Prop()
+  @Exclude({ toPlainOnly: true })
   password: string;
   @Prop({ required: true })
   email: string;

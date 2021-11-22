@@ -42,11 +42,15 @@ export class UserService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().populate('posts');
+    return this.userModel.find().exec();
   }
 
   findOne(id: string): Promise<User> {
     return this.userModel.findOne({ id }).exec();
+  }
+
+  findByUsername(username: string): Promise<User> {
+    return this.userModel.findOne({ username }).lean().exec();
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {

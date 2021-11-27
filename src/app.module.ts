@@ -5,6 +5,9 @@ import { UserModule } from './user/user.module';
 import { PostModule } from './post/post.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { DriverBlobService } from './config/services/driver-blob.service';
+import { CoreModule } from './config/core.module';
 
 @Module({
   imports: [
@@ -15,8 +18,10 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({ isGlobal: true }),
     UserModule,
     PostModule,
+    AuthModule,
+    CoreModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DriverBlobService],
 })
 export class AppModule {}

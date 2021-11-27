@@ -14,11 +14,11 @@ export class User {
   @Prop()
   @Exclude({ toPlainOnly: true })
   password: string;
-  @Prop({ required: true })
+  @Prop({ required: false })
   email: string;
   @Prop({ required: true })
   firstName: string;
-  @Prop()
+  @Prop({ required: false })
   lastName: string;
   @Prop()
   profilePicture: string;
@@ -26,7 +26,7 @@ export class User {
   bio: string;
   @Prop()
   location: string;
-  @Prop({ default: '2000-01-01T16:00:00Z' })
+  @Prop({ default: new Date() })
   birthDate: Date;
   @Prop()
   createAt: Date;

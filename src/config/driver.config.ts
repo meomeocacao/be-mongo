@@ -20,7 +20,7 @@ oauth2Client.setCredentials({
   refresh_token: OAUTH_CONFIG_DRIVER.refreshToken,
 });
 
-const drive = google.drive({
+export const drive = google.drive({
   version: 'v3',
   auth: oauth2Client,
 });

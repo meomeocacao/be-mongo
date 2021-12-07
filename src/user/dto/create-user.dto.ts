@@ -1,11 +1,5 @@
-import {
-  IsDate,
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  Matches,
-} from 'class-validator';
-import { USER_ERRORS, USER_REGEX } from 'src/constants/user.constants';
+import { USER_ERRORS } from '@/core';
+import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
   id?: string;
@@ -17,7 +11,7 @@ export class CreateUserDto {
   //   })
   // @IsOptional()
   password: string;
-  @IsEmail({ message: USER_ERRORS.INVALID_EMAIL })
+  @IsEmail({}, { message: USER_ERRORS.INVALID_EMAIL })
   @IsOptional()
   email: string;
   @IsNotEmpty({ message: USER_ERRORS.FIRST_NAME_NOT_EMPTY })

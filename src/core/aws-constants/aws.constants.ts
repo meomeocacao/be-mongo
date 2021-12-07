@@ -1,0 +1,9 @@
+export const AWS_CONSTANTS = {
+  BUCKET_NAME: 'my-quill-bucket',
+  BUCKET_REGION: 'us-east-2',
+  BUCKET_URL: '',
+  AWS_ACCESS_KEY_ID: 'AKIAZUBJF5ABTGW677OR',
+  AWS_SECRET_ACCESS_KEY: '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',
+  AWS_S3_ENDPOINT: '',
+  AWS_S3_SIGNATURE_VERSION: '',
+};

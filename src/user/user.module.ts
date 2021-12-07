@@ -1,14 +1,18 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
 import { UserSchema } from './entities/user.entity';
-import { DriverBlobService } from 'src/config/services/driver-blob.service';
+import { SCHEMA_NAME } from '@/core';
+import { CoreModule } from '@/config';
+import { UserService } from './services';
+import { UserController } from './controllers';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: SCHEMA_NAME.USER, schema: UserSchema }]),
+    CoreModule,
+  ],
   controllers: [UserController],
-  providers: [UserService, DriverBlobService],
+  providers: [UserService],
   exports: [UserService],
 })
 export class UserModule {}

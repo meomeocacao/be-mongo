@@ -1,7 +1,7 @@
+import { User } from '@/user';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Type } from 'class-transformer';
 import * as mongoose from 'mongoose';
-import { User } from 'src/user/entities/user.entity';
 
 @Schema()
 export class Posts {

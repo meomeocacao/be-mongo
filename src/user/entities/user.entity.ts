@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Exclude, Transform, Type } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 import { Document, ObjectId } from 'mongoose';
-import { Posts, PostSchema } from 'src/post/entities/post.entity';
 
 @Schema()
 export class User {

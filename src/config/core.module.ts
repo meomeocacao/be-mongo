@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { DriverBlobService } from './services/driver-blob.service';
-const providers = [DriverBlobService];
+import { AwsService, DriverService } from '@/config';
+const providers = [AwsService, DriverService];
 @Module({
   imports: [],
   providers: [...providers],

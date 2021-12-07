@@ -6,7 +6,8 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 
 // Multer configuration
 export const multerConfig = {
-  dest: process.env.UPLOAD_LOCATION,
+  // dest: process.env.UPLOAD_LOCATION,
+  dest: './uploads',
 };
 
 // Multer upload options
@@ -17,7 +18,7 @@ export const multerOptions = {
   //     fileSize: +process.env.MAX_FILE_SIZE,
   //   },
   // Check the mimetypes to allow for upload
-  fileFilter: (req: any, file: any, cb: any) => {
+  fileFilter: (_req: any, file: any, cb: any) => {
     if (file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
       // Allow storage of file
       cb(null, true);
@@ -35,7 +36,7 @@ export const multerOptions = {
   // Storage properties
   storage: diskStorage({
     // Destination storage path details
-    destination: (req: any, file: any, cb: any) => {
+    destination: (_req: any, _file: any, cb: any) => {
       const uploadPath = multerConfig.dest;
       // Create folder if doesn't exist
       if (!existsSync(uploadPath)) {
@@ -44,7 +45,7 @@ export const multerOptions = {
       cb(null, uploadPath);
     },
     // File modification details
-    filename: (req: any, file: any, cb: any) => {
+    filename: (_req: any, file: any, cb: any) => {
       // Calling the callback passing the random name generated with the original extension name
       cb(null, `${uuid()}${extname(file.originalname)}`);
     },
@@ -52,12 +53,11 @@ export const multerOptions = {
 };
 
 export const storage = diskStorage({
-  destination: './uploads',
-  filename: (req, file, callback) => {
+  filename: (_req, file, callback) => {
     callback(null, generateFilename(file));
   },
 });
 
-function generateFilename(file) {
+function generateFilename(file: Express.Multer.File) {
   return `${uuid()}.${extname(file.originalname)}`;
 }

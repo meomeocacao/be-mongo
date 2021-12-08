@@ -14,16 +14,12 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { storage } from 'src/config/multer.config';
 import MongooseClassSerializerInterceptor from 'src/interceptors/mongooseClassSerializer.interceptor';
 import { CreatePostDto, PaginationParams, Posts, UpdatePostDto } from '@/post';
-import { DriverService } from '@/config';
 import { PostService } from '../services';
 
 @Controller('post')
 @UseInterceptors(MongooseClassSerializerInterceptor(Posts))
 export class PostController {
-  constructor(
-    private readonly postService: PostService,
-    private driverService: DriverService,
-  ) {}
+  constructor(private readonly postService: PostService) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('file', { storage }))
@@ -31,12 +27,12 @@ export class PostController {
     @UploadedFile() file: Express.Multer.File,
     @Body() createPostDto: CreatePostDto,
   ) {
-    if (file) {
-      const imgUrl = await this.driverService.getUrlOfDriver(file.filename);
-      console.log(imgUrl);
-      createPostDto.image = imgUrl;
-    }
-    return this.postService.create(createPostDto);
+    // if (file) {
+    //   const imgUrl = await this.driverService.getUrlOfDriver(file.filename);
+    //   console.log(imgUrl);
+    //   createPostDto.image = imgUrl;
+    // }
+    return this.postService.create(createPostDto, file);
   }
 
   @Get()

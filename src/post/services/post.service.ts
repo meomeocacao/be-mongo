@@ -6,6 +6,7 @@ import { CreatePostDto, PostDocument, Posts, UpdatePostDto } from '@/post';
 import { UserDocument } from '@/user';
 import { POST_ERROR, SCHEMA_NAME } from '@/core';
 import { MESSAGE_RETURN } from '@/core/constants/constants';
+import { AwsService } from '@/config';
 
 @Injectable()
 export class PostService {
@@ -14,8 +15,19 @@ export class PostService {
     private readonly postModel: Model<PostDocument>,
     @InjectModel(SCHEMA_NAME.USER)
     private readonly userModel: Model<UserDocument>,
+    private awsService: AwsService,
   ) {}
-  async create(createPostDto: CreatePostDto): Promise<Posts> {
+  async create(
+    createPostDto: CreatePostDto,
+    file?: Express.Multer.File,
+  ): Promise<Posts> {
+    if (file) {
+      // const res = await uploadFileToDriver(file.filename);
+      const res = await this.awsService.uploadAWSFile(file);
+      console.log(res);
+      // createUserDto.profilePicture = res.webContentLink;
+      createPostDto.image = res.Location;
+    }
     const user = await this.userModel.findOne({ id: createPostDto.user });
     const createdPost = new this.postModel({
       ...createPostDto,
@@ -32,7 +44,8 @@ export class PostService {
       .populate('user')
       .skip(skip)
       .sort({ createAt: -1 });
-    if (limit) query.limit(limit);
+    console.log(limit);
+    // if (limit) query.limit(limit);
     return await query;
   }
 

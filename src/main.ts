@@ -10,6 +10,6 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'uploads'));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  await app.listen(80);
+  await app.listen(4444);
 }
 bootstrap();
